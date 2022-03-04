@@ -7,6 +7,8 @@ import numpy as np
 from random import sample
 import copy
 
+'''you must leave at least 17 numbers for a 9x9 sudoku'''
+
 def change_brightness(img, alpha, beta):
     img_new = np.asarray(alpha*img + beta, dtype=np.uint8)   # cast pixel values to int
     img_new[img_new > 255] = 255
@@ -32,8 +34,8 @@ class Board:
         self.rows = [g * base + r for g in self.shuffle(self.rBase) for r in self.shuffle(self.rBase)]
         self.cols = [g * base + c for g in self.shuffle(self.rBase) for c in self.shuffle(self.rBase)]
         nums = self.shuffle(range(1, base * base + 1))
-
         self.result_board = [[nums[self.pattern(r, c)] for c in self.cols] for r in self.rows]
+
         self.board_play, self.defaut_0 = self.create_board()
 
     def shuffle(self, s):
@@ -68,7 +70,6 @@ class Board:
         y_new = None
         for i in range(9):
             for j in range(9):
-                # if self.board_play[i][j] == 0:
                 if [i,j] in self.defaut_0:
                     if 10 + i*70 <= x < 10 + (i+1)*70:
                         x_new = i
