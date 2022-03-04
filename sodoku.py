@@ -87,7 +87,6 @@ class Board:
                                   (10 + (i + 1) * space - 5, 10 + (j + 1) * space - 5), PURPLE_COLOR, 2)
                 cv2.rectangle(final_img, (10 + i*space, 10 + j*space), (10 + (i+1)*space, 10+(j+1)*space), GRAY_COLOR, 2)
                 if self.board_play[i][j] != 0:
-                    # cv2.rectangle(final_img, (30+j*60, 20+i*60), (30+60+j*60, 20+60+i*60), (0,255,0), -1)
                     cv2.putText(final_img, str(self.board_play[i][j]), (40 + i * space, 50 +j*space), cv2.FONT_HERSHEY_COMPLEX, 0.7, (0,255,0), 2)
 
 class Number():
@@ -148,8 +147,6 @@ while True:
     img_for_blur = copy.deepcopy(img_new)
     final_img = img_new
 
-    # Find the hand and its landmarks
-    # hands, img = detector.findHands(img)  # with draw
     hands = detector.findHands(img, draw=False)  # without draw
 
     if hands:
