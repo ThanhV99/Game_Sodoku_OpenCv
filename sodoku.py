@@ -7,6 +7,8 @@ import numpy as np
 from random import sample
 import copy
 
+'''you must leave at least 17 numbers for a 9x9 sudoku'''
+
 def change_brightness(img, alpha, beta):
     img_new = np.asarray(alpha*img + beta, dtype=np.uint8)   # cast pixel values to int
     img_new[img_new > 255] = 255
@@ -32,8 +34,8 @@ class Board:
         self.rows = [g * base + r for g in self.shuffle(self.rBase) for r in self.shuffle(self.rBase)]
         self.cols = [g * base + c for g in self.shuffle(self.rBase) for c in self.shuffle(self.rBase)]
         nums = self.shuffle(range(1, base * base + 1))
-
         self.result_board = [[nums[self.pattern(r, c)] for c in self.cols] for r in self.rows]
+
         self.board_play, self.defaut_0 = self.create_board()
 
     def shuffle(self, s):
@@ -68,7 +70,6 @@ class Board:
         y_new = None
         for i in range(9):
             for j in range(9):
-                # if self.board_play[i][j] == 0:
                 if [i,j] in self.defaut_0:
                     if 10 + i*70 <= x < 10 + (i+1)*70:
                         x_new = i
@@ -86,7 +87,6 @@ class Board:
                                   (10 + (i + 1) * space - 5, 10 + (j + 1) * space - 5), PURPLE_COLOR, 2)
                 cv2.rectangle(final_img, (10 + i*space, 10 + j*space), (10 + (i+1)*space, 10+(j+1)*space), GRAY_COLOR, 2)
                 if self.board_play[i][j] != 0:
-                    # cv2.rectangle(final_img, (30+j*60, 20+i*60), (30+60+j*60, 20+60+i*60), (0,255,0), -1)
                     cv2.putText(final_img, str(self.board_play[i][j]), (40 + i * space, 50 +j*space), cv2.FONT_HERSHEY_COMPLEX, 0.7, (0,255,0), 2)
 
 class Number():
@@ -147,8 +147,6 @@ while True:
     img_for_blur = copy.deepcopy(img_new)
     final_img = img_new
 
-    # Find the hand and its landmarks
-    # hands, img = detector.findHands(img)  # with draw
     hands = detector.findHands(img, draw=False)  # without draw
 
     if hands:
